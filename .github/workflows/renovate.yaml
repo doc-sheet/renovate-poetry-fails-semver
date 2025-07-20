@@ -1,0 +1,20 @@
+name: Renovate
+on:
+  schedule:
+    # The "*" (#42, asterisk) character has special semantics in YAML, so this
+    # string has to be quoted.
+    - cron: '11 */7 * * *'
+  workflow_dispatch: {}
+jobs:
+  renovate:
+    runs-on: ubuntu-latest
+    container:
+      image: renovate/renovate:41.40.0
+    steps:
+      - name: Renovate
+        run: |
+          renovate ${{ github.repository }}
+        env:
+          LOG_LEVEL: debug
+          RENOVATE_TOKEN: ${{ github.token }}
+          RENOVATE_USE_BASE_BRANCH_CONFIG: 'true'
